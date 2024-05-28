@@ -8,7 +8,6 @@ import { dirname } from "path";
 
 // Determine the directory name of the current module file
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
@@ -29,17 +28,6 @@ app.use(
     methods: ["GET", "POST"],
   })
 );
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "build")));
-
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
-});
 
 io.on("connection", (socket) => {
   console.log("A user connected:", socket.id);
